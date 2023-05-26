@@ -15,8 +15,8 @@ public struct Question {
     let name: String
     let timestamp: Date
     let questionText: String
-    let heartCount: String
-    let commentCount: String
+    let heartCount: Int
+    let commentCount: Int
 
     init(dictionary: [String: Any]) {
         self.questionID = dictionary["questionID"] as? String ?? ""
@@ -28,7 +28,7 @@ public struct Question {
             self.timestamp = Date()
         }
         self.questionText = dictionary["questionText"] as? String ?? ""
-        self.heartCount = dictionary["heartCount"] as? String ?? ""
-        self.commentCount = dictionary["commentCount"] as? String ?? ""
+        self.heartCount = dictionary["heartCount"] as? Int ?? 0
+        self.commentCount = dictionary["commentCount"] as? Int ?? 0
     }
 }

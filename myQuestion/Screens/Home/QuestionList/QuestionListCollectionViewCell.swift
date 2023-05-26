@@ -6,7 +6,6 @@
 //
 
 import UIKit
-
 final class QuestionListCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Property
@@ -87,8 +86,8 @@ final class QuestionListCollectionViewCell: UICollectionViewCell {
     func configure(with question: Question) {
         usernameLabel.text = question.name
         questionLabel.text = question.questionText
-        heartCountLabel.text = question.heartCount
-        commentCountLabel.text = question.commentCount
+        heartCountLabel.text = String(question.heartCount)
+        commentCountLabel.text = String(question.commentCount)
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
