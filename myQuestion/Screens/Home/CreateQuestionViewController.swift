@@ -13,9 +13,9 @@ class CreateQuestionViewController: UIViewController {
     // MARK: - Property
     private var heartCount: Int? = 0
     
-    private let nameTextField: UITextField = {
+    private let titleTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "이름"
+        textField.placeholder = "질문 제목"
         textField.borderStyle = .roundedRect
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
         textField.leftViewMode = .always
@@ -63,22 +63,22 @@ class CreateQuestionViewController: UIViewController {
     private func setupUI() {
         view.backgroundColor = .white
         
-        view.addSubview(nameTextField)
+        view.addSubview(titleTextField)
         view.addSubview(questionTextField)
         view.addSubview(heartButton)
         view.addSubview(addButton)
         
-        nameTextField.translatesAutoresizingMaskIntoConstraints = false
+        titleTextField.translatesAutoresizingMaskIntoConstraints = false
         questionTextField.translatesAutoresizingMaskIntoConstraints = false
         heartButton.translatesAutoresizingMaskIntoConstraints = false
         addButton.translatesAutoresizingMaskIntoConstraints = false
         
         let constraints = [
-            nameTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            nameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            nameTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            titleTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            titleTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            titleTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             
-            questionTextField.topAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: 20),
+            questionTextField.topAnchor.constraint(equalTo: titleTextField.bottomAnchor, constant: 20),
             questionTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             questionTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             
@@ -87,10 +87,11 @@ class CreateQuestionViewController: UIViewController {
             heartButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             heartButton.heightAnchor.constraint(equalToConstant: 50),
             
-            addButton.topAnchor.constraint(equalTo: heartButton.bottomAnchor, constant: 40),
+            addButton.topAnchor.constraint(equalTo: heartButton.bottomAnchor, constant: 20),
             addButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             addButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             addButton.heightAnchor.constraint(equalToConstant: 50)
+            
         ]
         
         NSLayoutConstraint.activate(constraints)
@@ -104,21 +105,21 @@ class CreateQuestionViewController: UIViewController {
     }
     
     @objc private func addButtonTapped() {
-        guard nameTextField.text != "" && questionTextField.text != ""
+        guard let title = titleTextField.text,
+              let questionText = questionTextField.text,
+              let heartCount = heartCount,
+              titleTextField.text != "" && questionTextField.text != ""
         else {
             print("디버그: 모든 필드가 입력되지 않았습니다.")
-            return }
+            return
+        }
         
-        guard let name = nameTextField.text,
-              let questionText = questionTextField.text,
-              let heartCount = heartCount
-        else { return }
-        
-        let questionID = UUID().uuidString // or you can use your own method to generate ID
+        let questionID = UUID().uuidString
         let questionData: [String: Any] = [
             "questionID": questionID,
             "profileImage": "", // 프로필 이미지
-            "name": name,
+            "title": title,
+            "name": "유저이름",
             "timestamp": Timestamp(),
             "questionText": questionText,
             "heartCount": heartCount,

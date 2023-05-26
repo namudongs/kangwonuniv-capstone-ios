@@ -29,7 +29,7 @@ class HomeViewController: UIViewController {
     private lazy var navigationBarView: UIStackView = {
         let hStackView = UIStackView()
         hStackView.setHorizontalStack()
-//        hStackView.alignment = .center
+        //        hStackView.alignment = .center
         return hStackView
     }()
     
@@ -44,10 +44,10 @@ class HomeViewController: UIViewController {
     private lazy var addQuestionButton: UIButton = {
         let button = UIButton(type: .system)
         let imageConfig = UIImage.SymbolConfiguration.init(pointSize: 18, weight: .regular)
-         button.setImage(UIImage(systemName: "square.and.pencil", withConfiguration: imageConfig), for: .normal)
-//        button.setImage(UIImage(systemName: "plus.app", withConfiguration: imageConfig), for: .normal)
+        button.setImage(UIImage(systemName: "square.and.pencil", withConfiguration: imageConfig), for: .normal)
+        //        button.setImage(UIImage(systemName: "plus.app", withConfiguration: imageConfig), for: .normal)
         button.tintColor = .black
-         button.addTarget(self, action: #selector(addQuestionButtontapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(addQuestionButtontapped), for: .touchUpInside)
         return button
     }()
     

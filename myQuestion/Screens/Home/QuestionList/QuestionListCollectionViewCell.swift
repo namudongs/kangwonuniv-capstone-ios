@@ -35,12 +35,23 @@ final class QuestionListCollectionViewCell: UICollectionViewCell {
         return CustomLabel(text: "", boldSize: 10, color: .black.withAlphaComponent(0.5))
     }()
     
-    private let questionLabel: UILabel = {
-        let text: String = ""
-        return CustomLabel(text: text, lineSpacing: 5, size: 13,
-                           color: .black, numberOfLines: 3)
+    private let questionTitleLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.textColor = .black
+        label.font = UIFont.boldSystemFont(ofSize: 13)
+        
+        return label
     }()
     
+    private let questionLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0 // Dynamic height
+        label.textColor = .black
+        label.font = UIFont.systemFont(ofSize: 13)
+        return label
+    }()
+
     
     private let heartButton: UIButton = {
         return CustomButton(color: .red,
@@ -78,34 +89,37 @@ final class QuestionListCollectionViewCell: UICollectionViewCell {
     func setUp() {
         
         backgroundColor = .systemGray6.withAlphaComponent(0.5)
-        self.layer.cornerRadius = 30
-        self.clipsToBounds = true
+//        self.layer.cornerRadius = 30
+//        self.clipsToBounds = true
         
     }
     
     func configure(with question: Question) {
         usernameLabel.text = question.name
+        questionTitleLabel.text = question.title
         questionLabel.text = question.questionText
         heartCountLabel.text = String(question.heartCount)
         commentCountLabel.text = String(question.commentCount)
         
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        let formattedDate = dateFormatter.string(from: question.timestamp)
-        let currentDate = Date()
-        
-        let timeInterval = currentDate.timeIntervalSince(question.timestamp)
-        
-        if timeInterval < 60 {
-            timeLabel.text = "\(Int(timeInterval))초 전"
-        } else if timeInterval < 3600 {
-            let minutes = Int(timeInterval / 60)
-            timeLabel.text = "\(minutes)분 전"
-        } else if timeInterval < 86400 {
-            let hours = Int(timeInterval / 3600)
-            timeLabel.text = "\(hours)시간 전"
-        } else {
-            timeLabel.text = formattedDate
+        let timeInterval = Date().timeIntervalSince(question.timestamp)
+        let timeText = formatTimeInterval(timeInterval)
+        timeLabel.text = timeText
+    }
+
+    private func formatTimeInterval(_ timeInterval: TimeInterval) -> String {
+        switch timeInterval {
+        case 0..<60:
+            return "\(Int(timeInterval))초 전"
+        case 60..<3600:
+            return "\(Int(timeInterval / 60))분 전"
+        case 3600..<86400:
+            return "\(Int(timeInterval / 3600))시간 전"
+        case 86400..<2592000:
+            return "\(Int(timeInterval / 86400))일 전"
+        case 2592000..<31536000:
+            return "\(Int(timeInterval / 2592000))달 전"
+        default:
+            return "\(Int(timeInterval / 31536000))년 전"
         }
     }
     
@@ -113,36 +127,43 @@ final class QuestionListCollectionViewCell: UICollectionViewCell {
     func configureCellLayout() {
         
         addSubview(profileImageView)
+        addSubview(usernameLabel)
+        addSubview(dotView)
+        addSubview(timeLabel)
+        addSubview(questionTitleLabel)
+        addSubview(questionLabel)
+        let heartStack = UIStackView(arrangedSubviews: [heartButton, heartCountLabel])
+        let commentStack = UIStackView(arrangedSubviews: [commentButton, commentCountLabel])
+        
+        heartStack.axis = .horizontal
+        heartStack.spacing = 5
+        heartStack.distribution = .equalSpacing
+        
+        commentStack.axis = .horizontal
+        commentStack.spacing = 5
+        commentStack.distribution = .equalSpacing
+        
+        addSubview(heartStack)
+        addSubview(commentStack)
+        
         profileImageView.anchor(top: topAnchor, left: leftAnchor,
                                 paddingTop: 15, paddingLeft: 15)
         
-        addSubview(usernameLabel)
         usernameLabel.anchor(left: profileImageView.rightAnchor, paddingLeft: 7)
         usernameLabel.centerY(inView: profileImageView)
         
-        addSubview(dotView)
         dotView.anchor(left: usernameLabel.rightAnchor, paddingLeft: 7)
         dotView.centerY(inView: profileImageView)
         
-        addSubview(timeLabel)
         timeLabel.anchor(left: dotView.rightAnchor, paddingLeft: 7)
         timeLabel.centerY(inView: profileImageView)
+                
+        questionTitleLabel.anchor(top: profileImageView.bottomAnchor, left: leftAnchor, bottom: questionLabel.topAnchor, right: rightAnchor, paddingTop: 5, paddingLeft: 15, paddingRight: 20)
+
+        questionLabel.anchor(top: questionTitleLabel.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 15, paddingRight: 20)
         
-        addSubview(questionLabel)
-        questionLabel.anchor(top: profileImageView.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingLeft: 20, paddingBottom: 50, paddingRight: 20)
+        heartStack.anchor(top: questionLabel.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, paddingTop: 15, paddingLeft: 15, paddingBottom: 5, paddingRight: 15)
+        commentStack.anchor(top: questionLabel.bottomAnchor, left: heartStack.rightAnchor, bottom: bottomAnchor, paddingTop: 15, paddingLeft: 15, paddingBottom: 5)
         
-        addSubview(heartButton)
-        heartButton.anchor(top: questionLabel.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, paddingTop: -15, paddingLeft: 20, paddingBottom: 0)
-        
-        addSubview(heartCountLabel)
-        heartCountLabel.anchor(left: heartButton.rightAnchor, paddingLeft: 1.5)
-        heartCountLabel.centerY(inView: heartButton)
-        
-        addSubview(commentButton)
-        commentButton.anchor(top: questionLabel.bottomAnchor, left: heartCountLabel.rightAnchor, bottom: bottomAnchor, paddingTop: -15, paddingLeft: 35, paddingBottom: 0)
-        
-        addSubview(commentCountLabel)
-        commentCountLabel.anchor(left: commentButton.rightAnchor, paddingLeft: 2.5)
-        commentCountLabel.centerY(inView: heartButton)
     }
 }

@@ -27,9 +27,9 @@ class MainTabBarViewController: UITabBarController {
 
     private let postQuestionTab: UINavigationController = {
         let controller = UINavigationController(rootViewController: PostQuestionViewController())
-        controller.tabBarItem.image = UIImage(systemName: "doc.text")
-        controller.tabBarItem.selectedImage = UIImage(systemName: "doc.text.fill")
-        controller.title = "무슨 기능"
+        controller.tabBarItem.image = UIImage(systemName: "xmark.circle")
+        controller.tabBarItem.selectedImage = UIImage(systemName: "xmark.circle.fill")
+        controller.title = "기능 미정"
         return controller
     }()
 

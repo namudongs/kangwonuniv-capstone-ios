@@ -11,7 +11,6 @@ protocol QuestionListCollectionViewDelegate: AnyObject {
     func questionCellTapped(question: Question)
 }
 
-
 final class QuestionListCollectionView: UICollectionView {
     
     weak var customDelegate: QuestionListCollectionViewDelegate?
@@ -79,14 +78,13 @@ extension QuestionListCollectionView: UICollectionViewDataSource {
     }
 }
 
-
 extension QuestionListCollectionView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let width = collectionView.frame.width - 40
-        let height = width - 170
+        let cellWidth = collectionView.frame.width
+        let cellHeight: CGFloat = cellWidth - 260  // 적당한 높이를 설정합니다.
+        return CGSize(width: cellWidth, height: cellHeight)
         
-        return CGSize(width: width, height: height)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
