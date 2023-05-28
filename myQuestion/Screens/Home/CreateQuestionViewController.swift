@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Firebase
 
 class CreateQuestionViewController: UIViewController {
     
@@ -31,15 +30,6 @@ class CreateQuestionViewController: UIViewController {
         return textField
     }()
     
-    private let heartButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("하트버튼", for: .normal)
-        button.backgroundColor = .systemRed.withAlphaComponent(0.6)
-        button.setTitleColor(.white, for: .normal)
-        button.layer.cornerRadius = 8
-        return button
-    }()
-    
     private let addButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("등록하기", for: .normal)
@@ -55,22 +45,16 @@ class CreateQuestionViewController: UIViewController {
         setupUI()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        heartCount = 0
-    }
-    
     // MARK: - Helper
     private func setupUI() {
         view.backgroundColor = .white
         
         view.addSubview(titleTextField)
         view.addSubview(questionTextField)
-        view.addSubview(heartButton)
         view.addSubview(addButton)
         
         titleTextField.translatesAutoresizingMaskIntoConstraints = false
         questionTextField.translatesAutoresizingMaskIntoConstraints = false
-        heartButton.translatesAutoresizingMaskIntoConstraints = false
         addButton.translatesAutoresizingMaskIntoConstraints = false
         
         let constraints = [
@@ -82,12 +66,7 @@ class CreateQuestionViewController: UIViewController {
             questionTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             questionTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             
-            heartButton.topAnchor.constraint(equalTo: questionTextField.bottomAnchor, constant: 20),
-            heartButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            heartButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            heartButton.heightAnchor.constraint(equalToConstant: 50),
-            
-            addButton.topAnchor.constraint(equalTo: heartButton.bottomAnchor, constant: 20),
+            addButton.topAnchor.constraint(equalTo: questionTextField.bottomAnchor, constant: 20),
             addButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             addButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             addButton.heightAnchor.constraint(equalToConstant: 50)
@@ -95,19 +74,12 @@ class CreateQuestionViewController: UIViewController {
         ]
         
         NSLayoutConstraint.activate(constraints)
-        heartButton.addTarget(self, action: #selector(heartButtonTapped), for: .touchUpInside)
         addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
-    }
-    
-    @objc private func heartButtonTapped() {
-        self.heartCount! += 1
-        print("디버그: \(Int(heartCount!))")
     }
     
     @objc private func addButtonTapped() {
         guard let title = titleTextField.text,
               let questionText = questionTextField.text,
-              let heartCount = heartCount,
               titleTextField.text != "" && questionTextField.text != ""
         else {
             print("디버그: 모든 필드가 입력되지 않았습니다.")
@@ -120,20 +92,19 @@ class CreateQuestionViewController: UIViewController {
             "profileImage": "", // 프로필 이미지
             "title": title,
             "name": "유저이름",
-            "timestamp": Timestamp(),
+            "timestamp": FirebaseManager.shared.timestamp,
             "questionText": questionText,
-            "heartCount": heartCount,
+            "heartCount": 0,
             "commentCount": 0
         ]
-        print("디버그: \(Int(heartCount))")
         
-        let db = Firestore.firestore()
-        db.collection("questions").document(questionID).setData(questionData) { error in
-            if let error = error {
-                print("Error adding document: \(error)")
-            } else {
-                print("Document added with ID: \(questionID)")
+        FirebaseManager.shared.addQuestion(questionData) { result in
+            switch result {
+            case .success(let questionID):
+                print("디버그: 질문 등록 성공 질문: \(questionID)")
                 self.navigationController?.popViewController(animated: true)
+            case .failure(let error):
+                print("디버그: 질문 등록 실패 에러내용: \(error)")
             }
         }
     }

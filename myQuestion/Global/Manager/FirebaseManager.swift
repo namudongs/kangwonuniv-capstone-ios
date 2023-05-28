@@ -19,8 +19,24 @@ extension Timestamp {
 
 class FirebaseManager {
     static let shared = FirebaseManager()
+    let timestamp = Timestamp()
     var questions = [Question]()
     var dataUpdated: (() -> Void)?
+    
+    func addQuestion(_ questionData: [String: Any], completion: @escaping (Result<String, Error>) -> Void) {
+        let questionID = UUID().uuidString
+        var questionData = questionData
+        questionData["questionID"] = questionID
+
+        let db = Firestore.firestore()
+        db.collection("questions").document(questionID).setData(questionData) { error in
+            if let error = error {
+                completion(.failure(error))
+            } else {
+                completion(.success(questionID))
+            }
+        }
+    }
     
     func fetchQuestions() {
         let db = Firestore.firestore()

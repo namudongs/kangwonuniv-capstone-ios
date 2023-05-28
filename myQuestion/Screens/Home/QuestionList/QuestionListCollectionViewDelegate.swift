@@ -81,8 +81,16 @@ extension QuestionListCollectionView: UICollectionViewDataSource {
 extension QuestionListCollectionView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let cellWidth = collectionView.frame.width
-        let cellHeight: CGFloat = cellWidth - 260  // 적당한 높이를 설정합니다.
+        let cellWidth = UIScreen.main.bounds.width
+        let screenHeight = UIScreen.main.bounds.height
+        var cellHeight: CGFloat = cellWidth / 3
+        
+        if screenHeight >= 896 { // 예를 들어, iPhone 11 Pro Max, iPhone 13 Pro Max 등의 높이인 896pt 이상일 경우
+                    cellHeight = (cellWidth / 3) - 10 // 맥스 모델에 맞는 높이
+                } else {
+                    cellHeight = cellWidth / 3 // 그 외 모델에 맞는 높이
+                }
+        
         return CGSize(width: cellWidth, height: cellHeight)
         
     }

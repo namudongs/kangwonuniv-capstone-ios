@@ -37,7 +37,7 @@ final class QuestionListCollectionViewCell: UICollectionViewCell {
     
     private let questionTitleLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 0
+        label.numberOfLines = 1
         label.textColor = .black
         label.font = UIFont.boldSystemFont(ofSize: 13)
         
@@ -46,7 +46,7 @@ final class QuestionListCollectionViewCell: UICollectionViewCell {
     
     private let questionLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 0 // Dynamic height
+        label.numberOfLines = 1 // Dynamic height
         label.textColor = .black
         label.font = UIFont.systemFont(ofSize: 13)
         return label
@@ -162,8 +162,8 @@ final class QuestionListCollectionViewCell: UICollectionViewCell {
 
         questionLabel.anchor(top: questionTitleLabel.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 15, paddingRight: 20)
         
-        heartStack.anchor(top: questionLabel.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, paddingTop: 15, paddingLeft: 15, paddingBottom: 5, paddingRight: 15)
-        commentStack.anchor(top: questionLabel.bottomAnchor, left: heartStack.rightAnchor, bottom: bottomAnchor, paddingTop: 15, paddingLeft: 15, paddingBottom: 5)
+        heartStack.anchor(top: questionLabel.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, paddingTop: 7, paddingLeft: 15, paddingBottom: 5, paddingRight: 15)
+        commentStack.anchor(top: questionLabel.bottomAnchor, left: heartStack.rightAnchor, bottom: bottomAnchor, paddingTop: 7, paddingLeft: 15, paddingBottom: 5)
         
     }
 }

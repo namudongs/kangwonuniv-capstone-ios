@@ -129,7 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				79BF20DE2A1FB0B80053CEC7 /* Model */,
-				79BF20D92A1F356F0053CEC7 /* View */,
+				79BF20D92A1F356F0053CEC7 /* UIComponent */,
 				7978E48B2A1F12F30079AA87 /* Extension */,
 				7978E4842A1F10E60079AA87 /* Manager */,
 			);
@@ -180,11 +180,11 @@
 			path = Main;
 			sourceTree = "<group>";
 		};
-		79BF20D92A1F356F0053CEC7 /* View */ = {
+		79BF20D92A1F356F0053CEC7 /* UIComponent */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			path = View;
+			path = UIComponent;
 			sourceTree = "<group>";
 		};
 		79BF20DE2A1FB0B80053CEC7 /* Model */ = {
