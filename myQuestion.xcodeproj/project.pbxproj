@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		792949282A24B3BB00E9EC5A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792949272A24B3BB00E9EC5A /* User.swift */; };
 		795796CB2A21181500291CE7 /* CustomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795796CA2A21181500291CE7 /* CustomLabel.swift */; };
 		7978E45F2A1F0F3F0079AA87 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7978E45E2A1F0F3F0079AA87 /* AppDelegate.swift */; };
 		7978E4612A1F0F3F0079AA87 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7978E4602A1F0F3F0079AA87 /* SceneDelegate.swift */; };
@@ -40,6 +41,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		792949272A24B3BB00E9EC5A /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		795796CA2A21181500291CE7 /* CustomLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLabel.swift; sourceTree = "<group>"; };
 		7978E45B2A1F0F3F0079AA87 /* myQuestion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = myQuestion.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7978E45E2A1F0F3F0079AA87 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -139,6 +141,7 @@
 		7978E4832A1F10C60079AA87 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				7978E4932A1F22010079AA87 /* Main */,
 				79BF20E32A1FBC310053CEC7 /* Home */,
 				7978E4922A1F21D40079AA87 /* Auth */,
 				79BF20F22A1FD78D0053CEC7 /* Temp */,
@@ -190,6 +193,7 @@
 		79BF20DE2A1FB0B80053CEC7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				792949272A24B3BB00E9EC5A /* User.swift */,
 				79BF20DC2A1FB0B20053CEC7 /* Question.swift */,
 				79BF20E12A1FB6C20053CEC7 /* CustomButton.swift */,
 				795796CA2A21181500291CE7 /* CustomLabel.swift */,
@@ -200,7 +204,7 @@
 		79BF20E32A1FBC310053CEC7 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				79BF20E42A1FBC480053CEC7 /* QuestionList */,
+				79BF20E42A1FBC480053CEC7 /* CollectionView */,
 				7978E4A12A1F2AF90079AA87 /* HomeViewController.swift */,
 				79BF20F02A1FD2620053CEC7 /* CreateQuestionViewController.swift */,
 				79BF20F32A1FD9440053CEC7 /* QuestionDetailViewController.swift */,
@@ -208,14 +212,13 @@
 			path = Home;
 			sourceTree = "<group>";
 		};
-		79BF20E42A1FBC480053CEC7 /* QuestionList */ = {
+		79BF20E42A1FBC480053CEC7 /* CollectionView */ = {
 			isa = PBXGroup;
 			children = (
 				79BF20E62A1FBC780053CEC7 /* QuestionListCollectionViewDelegate.swift */,
 				79BF20DA2A1F35B00053CEC7 /* QuestionListCollectionViewCell.swift */,
-				7978E4932A1F22010079AA87 /* Main */,
 			);
-			path = QuestionList;
+			path = CollectionView;
 			sourceTree = "<group>";
 		};
 		79BF20F22A1FD78D0053CEC7 /* Temp */ = {
@@ -320,6 +323,7 @@
 				7978E4632A1F0F3F0079AA87 /* ViewController.swift in Sources */,
 				7978E45F2A1F0F3F0079AA87 /* AppDelegate.swift in Sources */,
 				79BF20D62A1F32100053CEC7 /* TimerViewController.swift in Sources */,
+				792949282A24B3BB00E9EC5A /* User.swift in Sources */,
 				7978E49D2A1F24040079AA87 /* MyPageViewController.swift in Sources */,
 				7978E49F2A1F253E0079AA87 /* UIStackViewExtension.swift in Sources */,
 				79BF20F12A1FD2620053CEC7 /* CreateQuestionViewController.swift in Sources */,

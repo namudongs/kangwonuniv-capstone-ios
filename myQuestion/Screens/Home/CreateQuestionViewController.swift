@@ -1,5 +1,5 @@
 //
-//  CreateQuestionViewController.swift
+//  QuestionCreateViewController.swift
 //  myQuestion
 //
 //  Created by namdghyun on 2023/05/26.
@@ -7,9 +7,10 @@
 
 import UIKit
 
-class CreateQuestionViewController: UIViewController {
+class QuestionCreateViewController: UIViewController {
     
     // MARK: - Property
+    let firebase = FirebaseManager()
     private var heartCount: Int? = 0
     
     private let titleTextField: UITextField = {
@@ -92,13 +93,13 @@ class CreateQuestionViewController: UIViewController {
             "profileImage": "", // 프로필 이미지
             "title": title,
             "name": "유저이름",
-            "timestamp": FirebaseManager.shared.timestamp,
+            "timestamp": firebase.timestamp,
             "questionText": questionText,
             "heartCount": 0,
             "commentCount": 0
         ]
         
-        FirebaseManager.shared.addQuestion(questionData) { result in
+        firebase.addQuestion(questionData) { result in
             switch result {
             case .success(let questionID):
                 print("디버그: 질문 등록 성공 질문: \(questionID)")

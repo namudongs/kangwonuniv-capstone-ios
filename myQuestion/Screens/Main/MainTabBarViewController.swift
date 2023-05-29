@@ -8,6 +8,8 @@
 import UIKit
 
 class MainTabBarViewController: UITabBarController {
+    let firebase = FirebaseManager()
+    
     // MARK: - Property
     private let homeTab: UINavigationController = {
         let controller = UINavigationController(rootViewController: HomeViewController())
@@ -16,7 +18,7 @@ class MainTabBarViewController: UITabBarController {
         controller.title = "홈"
         return controller
     }()
-
+    
     private let timerTab: UINavigationController = {
         let controller = UINavigationController(rootViewController: TimerViewController())
         controller.tabBarItem.image = UIImage(systemName: "timer")
@@ -24,7 +26,7 @@ class MainTabBarViewController: UITabBarController {
         controller.title = "타이머"
         return controller
     }()
-
+    
     private let postQuestionTab: UINavigationController = {
         let controller = UINavigationController(rootViewController: PostQuestionViewController())
         controller.tabBarItem.image = UIImage(systemName: "xmark.circle")
@@ -32,7 +34,7 @@ class MainTabBarViewController: UITabBarController {
         controller.title = "기능 미정"
         return controller
     }()
-
+    
     private let myPageTab: UINavigationController = {
         let controller = UINavigationController(rootViewController: MyPageViewController())
         controller.tabBarItem.image = UIImage(systemName: "person")
@@ -40,14 +42,28 @@ class MainTabBarViewController: UITabBarController {
         controller.title = "마이페이지"
         return controller
     }()
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        checkLogin()
         configureTabBar()
         configureUI()
         
         setViewControllers([homeTab, timerTab, postQuestionTab, myPageTab], animated: true)
+    }
+    
+    func checkLogin() {
+        firebase.checkLoginStatus { [weak self] isLoggedIn in
+            if isLoggedIn {
+            } else {
+                DispatchQueue.main.async {
+                    let signInViewController = SignInViewController()
+                    signInViewController.modalPresentationStyle = .fullScreen
+                    self?.present(signInViewController, animated: false, completion: nil)
+                }
+            }
+        }
     }
     
     func configureTabBar() {

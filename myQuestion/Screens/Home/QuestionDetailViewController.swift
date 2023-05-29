@@ -1,10 +1,10 @@
 import UIKit
-import Firebase
 
 class QuestionDetailViewController: UIViewController {
     
     // MARK: - Property
     var question: Question?
+    let firebase = FirebaseManager()
     
     private let questionLabel: UILabel = {
         let label = UILabel()
@@ -134,7 +134,7 @@ class QuestionDetailViewController: UIViewController {
             Time: \(formattedDate)
             Question ID: \(question.questionID)
             """
-        showAnswers()
+        fetchAnswers()
     }
     
     @objc private func heartTapped() {
@@ -142,36 +142,33 @@ class QuestionDetailViewController: UIViewController {
         heartCount += 1
         print(heartCount)
         
-        let db = Firestore.firestore()
-        db.collection("questions").document(questionID).updateData(["heartCount" : heartCount]) { err in
-            if let err = err {
-                print("디버그: 하트카운트 증가 실패: \(err)")
-            } else {
+        firebase.updateHeartCount(questionID, heartCount) { result in
+            switch result {
+            case .success():
                 print("디버그: 하트카운트 증가 성공")
+            case .failure(let err):
+                print("디버그: 하트카운트 증가 실패: \(err)")
             }
         }
-        
     }
     
     @objc private func deleteQuestion() {
         guard let questionId = question?.questionID else { return }
-        let db = Firestore.firestore()
 
-        // First, delete all the answers
-        deleteAnswers(in: questionId) { err in
-            if let err = err {
-                print("디버그: 질문 삭제 실패: \(err)")
-                return
-            }
-
-            // Then delete the question itself
-            db.collection("questions").document(questionId).delete { err in
-                if let err = err {
-                    print("디버그: 답변 삭제 실패: \(err)")
-                } else {
-                    print("디버그: 질문과 답변이 성공적으로 삭제됐습니다.")
-                    self.navigationController?.popViewController(animated: true)
+        firebase.deleteAnswers(questionId) { result in
+            switch result {
+            case .success():
+                self.firebase.deleteQuestion(questionId) { result in
+                    switch result {
+                    case .success():
+                        print("디버그: 질문과 답변이 성공적으로 삭제됐습니다.")
+                        self.navigationController?.popViewController(animated: true)
+                    case .failure(let err):
+                        print("디버그: 답변 삭제 실패: \(err)")
+                    }
                 }
+            case .failure(let err):
+                print("디버그: 질문 삭제 실패: \(err)")
             }
         }
     }
@@ -185,85 +182,39 @@ class QuestionDetailViewController: UIViewController {
         commentCount += 1
         print(commentCount)
         
-        let db = Firestore.firestore()
-        
         let answerID = UUID().uuidString
         let answerData: [String: Any] = [
             "answerID": answerID,
             "profileImage": "", // 프로필 이미지
             "title": "답변제목",
             "name": "유저이름",
-            "timestamp": Timestamp(),
+            "timestamp": firebase.timestamp,
             "answerText": answertext,
             "heartCount": 0,
             "commentCount": 0
         ]
         
-        db.collection("questions").document(questionId).updateData(["commentCount" : commentCount]) { error in
-            if let error = error {
-                print("디버그: 코멘트 증가 실패 \(error)")
-            } else {
-                print("디버그: 질문에 코멘트 증가 성공, 질문: \(questionId), 코멘트: \(commentCount)")
-//                self.navigationController?.popViewController(animated: true)
-            }
-        }
-        
-        db.collection("questions").document(questionId).collection("answers").document(answerID).setData(answerData) { error in
-            if let error = error {
-                print("디버그: 질문에 답변 등록 실패: \(error)")
-            } else {
+        firebase.addAnswer(questionId, commentCount, answerData) { result in
+            switch result {
+            case .success():
                 print("디버그: 질문에 답변 등록 성공: 질문: \(questionId) 답변: \(answerID)")
                 self.updateUI()
-//                self.navigationController?.popViewController(animated: true)
+            case .failure(let err):
+                print("디버그: 질문에 답변 등록 실패: \(err)")
             }
         }
     }
     
-    private func deleteAnswers(in questionId: String, completion: @escaping (Error?) -> Void) {
-        let db = Firestore.firestore()
-
-        db.collection("questions").document(questionId).collection("answers").getDocuments { (snapshot, err) in
-            guard let snapshot = snapshot else {
-                completion(err)
-                return
-            }
-
-            guard !snapshot.isEmpty else {
-                completion(nil)
-                return
-            }
-
-            for document in snapshot.documents {
-                db.collection("questions").document(questionId).collection("answers").document(document.documentID).delete { err in
-                    if let err = err {
-                        completion(err)
-                        return
-                    }
-                }
-            }
-            completion(nil)
-        }
-    }
-    
-    private func showAnswers() {
+    private func fetchAnswers() {
         guard let questionId = question?.questionID else { return }
-        let db = Firestore.firestore()
 
-        db.collection("questions").document(questionId).collection("answers")
-            .order(by: "timestamp", descending: false)
-            .getDocuments { (querySnapshot, err) in
-                if let err = err {
-                    print("디버그: 답변을 불러오는 데에 오류가 발생했습니다. \(err)")
-                } else {
-                    var answersText = ""
-                    for document in querySnapshot!.documents {
-                        let answerData = document.data()
-                        if let answerText = answerData["answerText"] as? String {
-                            answersText += answerText + "\n\n"
-                        }
-                    }
-                    self.showAnswerLabel.text = answersText
-                }
+        firebase.fetchAnswers(questionId) { result in
+            switch result {
+            case .success(let answersText):
+                self.showAnswerLabel.text = answersText
+            case .failure(let err):
+                print("디버그: 답변을 불러오는 데에 오류가 발생했습니다. \(err)")
             }
+        }
     }
 }

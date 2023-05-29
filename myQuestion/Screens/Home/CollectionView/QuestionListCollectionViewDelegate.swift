@@ -16,7 +16,7 @@ final class QuestionListCollectionView: UICollectionView {
     weak var customDelegate: QuestionListCollectionViewDelegate?
     
     private let reuseIdentifier = "QuestionListCollectionViewCell"
-    private let firebaseManager = FirebaseManager()
+    private let firebase = FirebaseManager()
     
     // MARK: - init
     
@@ -32,14 +32,14 @@ final class QuestionListCollectionView: UICollectionView {
         layout.sectionInset = UIEdgeInsets(top: 20, left: 0, bottom: 20, right: 0)
         super.init(frame: frame, collectionViewLayout: layout)
         
-        firebaseManager.dataUpdated = { [weak self] in
+        firebase.dataUpdated = { [weak self] in
             DispatchQueue.main.async {
                 self?.reloadData()
             }
         }
         configureUI()
         configureCollectionView()
-        firebaseManager.fetchQuestions()
+        firebase.fetchQuestions()
     }
     
     // MARK: - func
@@ -59,20 +59,20 @@ final class QuestionListCollectionView: UICollectionView {
 
 extension QuestionListCollectionView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let question = firebaseManager.question(at: indexPath.row)
+        let question = firebase.question(at: indexPath.row)
         customDelegate?.questionCellTapped(question: question)
     }
 }
 
 extension QuestionListCollectionView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return firebaseManager.numberOfQuestions()
+        return firebase.numberOfQuestions()
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as? QuestionListCollectionViewCell else { return UICollectionViewCell() }
         
-        let question = firebaseManager.question(at: indexPath.row)
+        let question = firebase.question(at: indexPath.row)
         cell.configure(with: question)
         return cell
     }

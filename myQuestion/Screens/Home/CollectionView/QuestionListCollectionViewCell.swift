@@ -6,6 +6,7 @@
 //
 
 import UIKit
+
 final class QuestionListCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Property
