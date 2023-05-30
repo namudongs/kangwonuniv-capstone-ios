@@ -111,47 +111,12 @@ class SignInViewController: UIViewController {
     }
     
     @objc func handleSignUp() {
-        let email: String = emailTextField.text! + "@kangwon.ac.kr"
-        let pw: String = passwordTextField.text!
-        let username: String = usernameTextField.text!
-        let userData = ["email": email, "password": pw, "username": username]
         
-        firebase.signUp(email, pw) { [weak self] result in
-            switch result {
-            case .success(let uid):
-                print("디버그: 등록 성공 \(uid)")
-                self?.firebase.addUserdata(userData, uid) { addUserResult in
-                    switch addUserResult {
-                    case .success(let documentID):
-                        print("디버그: 유저 데이터 저장 성공, 문서 ID: \(documentID)")
-                    case .failure(let err):
-                        print("디버그: 유저 데이터 저장 실패 \(err)")
-                    }
-                }
-            case .failure(let err):
-                print("디버그: 등록 실패 \(err)")
-            }
-        }
     }
     
     
     @objc func handleSignIn() {
-        let email: String = emailTextField.text! + "@kangwon.ac.kr"
-        let pw: String = passwordTextField.text!
         
-        firebase.signIn(email, pw) { result in
-            switch result {
-            case .success(let uid):
-                print("디버그: 로그인 성공 \(uid)")
-                self.dismiss(animated: true)
-            case .failure(let err):
-                print("디버그: 로그인 실패 \(err)")
-            }
-        }
-    }
-    
-    func appendDomainToEmail(_ email: String, domain: String = "@kangwon.ac.kr") -> String {
-        return email + domain
     }
     
 }
