@@ -6,125 +6,94 @@
 //
 
 import UIKit
+import SnapKit
+import Then
 
 class SignInViewController: UIViewController {
     
-    var userName = ""
-    var userInfoLabel: UILabel! = {
-        let label = UILabel()
-        
-        return label
-    }()
-    
-    var emailTextField: UITextField! = {
-        let tf = UITextField()
-        tf.placeholder = "이메일을 입력하세요"
-        tf.borderStyle = .none
-        tf.layer.borderWidth = 1.0
-        tf.layer.borderColor = UIColor.black.withAlphaComponent(0.3).cgColor
-        tf.layer.cornerRadius = 5.0
-        tf.autocapitalizationType = .none
-        
-        let pv = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: tf.frame.height))
-        tf.leftView = pv
-        tf.leftViewMode = .always
-        
-        return tf
-    }()
-    
-    var passwordTextField: UITextField! = {
-        let tf = UITextField()
-        tf.placeholder = "비밀번호를 입력하세요"
-        tf.borderStyle = .none
-        tf.layer.borderWidth = 1.0
-        tf.layer.borderColor = UIColor.black.withAlphaComponent(0.3).cgColor
-        tf.layer.cornerRadius = 5.0
-        tf.isSecureTextEntry = true
-        tf.autocapitalizationType = .none
-        
-        let pv = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: tf.frame.height))
-        tf.leftView = pv
-        tf.leftViewMode = .always
-        
-        return tf
-    }()
-    
-    var userNameTextField: UITextField! = {
-        let tf = UITextField()
-        tf.placeholder = "닉네임을 입력하세요"
-        tf.borderStyle = .none
-        tf.layer.borderWidth = 1.0
-        tf.layer.borderColor = UIColor.black.withAlphaComponent(0.3).cgColor
-        tf.layer.cornerRadius = 5.0
-        tf.autocapitalizationType = .none
-        
-        let pv = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: tf.frame.height))
-        tf.leftView = pv
-        tf.leftViewMode = .always
-        
-        return tf
-    }()
-    
-    @objc private let searchTextField: UITextField = {
-        let tf = UITextField()
-        tf.placeholder = "단과대학을 입력하세요"
-        tf.borderStyle = .none
-        tf.layer.borderWidth = 1.0
-        tf.layer.borderColor = UIColor.black.withAlphaComponent(0.3).cgColor
-        tf.layer.cornerRadius = 5.0
-        tf.autocapitalizationType = .none
-        
-        let pv = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: tf.frame.height))
-        tf.leftView = pv
-        tf.leftViewMode = .always
-        
-        return tf
-    }()
-    
+    // MARK: - Property
     private let tagCV = TagCV()
-    
     private let gradeCV = TagCV()
     
-    var signUpButton: UIButton! = {
-        let bt = UIButton()
-        bt.setTitle("등록하기", for: .normal)
-        bt.backgroundColor = .systemBlue
-        bt.layer.cornerRadius = 5
-        bt.layer.masksToBounds = true
+    var emailTextField = UITextField().then {
+        $0.placeholder = "이메일을 입력하세요"
+        $0.borderStyle = .none
+        $0.layer.borderWidth = 1.0
+        $0.layer.borderColor = UIColor.black.withAlphaComponent(0.3).cgColor
+        $0.layer.cornerRadius = 5.0
+        $0.autocapitalizationType = .none
         
-        return bt
-    }()
+        let pv = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: $0.frame.height))
+        $0.leftView = pv
+        $0.leftViewMode = .always
+    }
     
-    var signInButton: UIButton! = {
-        let bt = UIButton()
-        bt.setTitle("로그인하기", for: .normal)
-        bt.backgroundColor = .systemGreen
-        bt.layer.cornerRadius = 5
-        bt.layer.masksToBounds = true
+    var passwordTextField = UITextField().then {
+        $0.placeholder = "비밀번호를 입력하세요"
+        $0.borderStyle = .none
+        $0.layer.borderWidth = 1.0
+        $0.layer.borderColor = UIColor.black.withAlphaComponent(0.3).cgColor
+        $0.layer.cornerRadius = 5.0
+        $0.isSecureTextEntry = true
+        $0.autocapitalizationType = .none
         
-        return bt
-    }()
+        let pv = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: $0.frame.height))
+        $0.leftView = pv
+        $0.leftViewMode = .always
+    }
     
+    var userNameTextField = UITextField().then {
+        $0.placeholder = "닉네임을 입력하세요"
+        $0.borderStyle = .none
+        $0.layer.borderWidth = 1.0
+        $0.layer.borderColor = UIColor.black.withAlphaComponent(0.3).cgColor
+        $0.layer.cornerRadius = 5.0
+        $0.autocapitalizationType = .none
+        
+        let pv = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: $0.frame.height))
+        $0.leftView = pv
+        $0.leftViewMode = .always
+    }
     
+    @objc private let searchTextField = UITextField().then {
+        $0.placeholder = "단과대학을 입력하세요"
+        $0.borderStyle = .none
+        $0.layer.borderWidth = 1.0
+        $0.layer.borderColor = UIColor.black.withAlphaComponent(0.3).cgColor
+        $0.layer.cornerRadius = 5.0
+        $0.autocapitalizationType = .none
+        
+        let pv = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: $0.frame.height))
+        $0.leftView = pv
+        $0.leftViewMode = .always
+    }
+        
+    var signUpButton = UIButton().then {
+        $0.setTitle("등록하기", for: .normal)
+        $0.backgroundColor = .systemBlue
+        $0.layer.cornerRadius = 5
+        $0.layer.masksToBounds = true
+    }
+    
+    var signInButton = UIButton().then {
+        $0.setTitle("로그인하기", for: .normal)
+        $0.backgroundColor = .systemGreen
+        $0.layer.cornerRadius = 5
+        $0.layer.masksToBounds = true
+    }
+    
+    // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        setUpUI()
+        setUp()
         searchTextField.addTarget(self, action: #selector(searchTags(_:)), for: .editingChanged)
         signInButton.addTarget(self, action: #selector(handleSignIn), for: .touchUpInside)
         signUpButton.addTarget(self, action: #selector(handleSignUp), for: .touchUpInside)
     }
     
-    func setUpUI() {
-        let stack = UIStackView(arrangedSubviews:
-                                    [emailTextField,
-                                     passwordTextField,
-                                     userNameTextField,
-                                     searchTextField,
-                                     tagCV,
-                                     gradeCV,
-                                     signUpButton,
-                                     signInButton])
+    func setUp() {
+        let stack = UIStackView(arrangedSubviews: [emailTextField, passwordTextField, userNameTextField, searchTextField, tagCV, gradeCV, signUpButton, signInButton])
         stack.axis = .vertical
         stack.spacing = 20
         stack.distribution = .fillEqually
@@ -132,10 +101,14 @@ class SignInViewController: UIViewController {
         gradeCV.tagList = ["1학년", "2학년", "3학년", "4학년"]
         view.addSubview(stack)
         
-        stack.setDimensions(height: 500, width: 300)
-        stack.center(inView: view)
+        stack.snp.makeConstraints { make in
+            make.height.equalTo(500)
+            make.width.equalTo(300)
+            make.centerX.centerY.equalToSuperview()
+        }
     }
     
+    // MARK: - Helpers
     @objc func handleSignUp() {
         let email = emailTextField.text!
         let pw = passwordTextField.text!
@@ -159,7 +132,6 @@ class SignInViewController: UIViewController {
         AuthManager.shared.createUser(email: email, pw: pw, userName: userName, major: major, grade: grade)
     }
     
-    
     @objc func handleSignIn() {
         let email = emailTextField.text!
         let pw = passwordTextField.text!
@@ -171,6 +143,7 @@ class SignInViewController: UIViewController {
             switch result {
             case .success(let user):
                 print("사용자 데이터: \(user)")
+                // 이 데이터를 가지고 다음 뷰로 이동 \(MainTabBar)
             case .failure(let error):
                 print("사용자 데이터를 가져오는 중 오류 발생 \(error)")
             }
@@ -190,5 +163,4 @@ class SignInViewController: UIViewController {
             tagCV.reloadData()
         }
     }
-    
 }

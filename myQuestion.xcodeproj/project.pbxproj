@@ -39,6 +39,7 @@
 		7978E4802A1F0F950079AA87 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 7978E47F2A1F0F950079AA87 /* FirebaseStorageCombine-Community */; };
 		7978E48A2A1F12530079AA87 /* SignInContorller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7978E4892A1F12530079AA87 /* SignInContorller.swift */; };
 		797A4D2E2A260F2F0078BBFC /* TagCV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797A4D2D2A260F2F0078BBFC /* TagCV.swift */; };
+		79929EB12A2653E700EDAEDD /* TagCVDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79929EB02A2653E700EDAEDD /* TagCVDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,6 +68,7 @@
 		7978E46C2A1F0F400079AA87 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7978E4892A1F12530079AA87 /* SignInContorller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInContorller.swift; sourceTree = "<group>"; };
 		797A4D2D2A260F2F0078BBFC /* TagCV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCV.swift; sourceTree = "<group>"; };
+		79929EB02A2653E700EDAEDD /* TagCVDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCVDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,8 +94,8 @@
 		791EC7922A25FCC20087E453 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				791EC79F2A25FE8D0087E453 /* PostCV.swift */,
 				791EC7962A25FD5B0087E453 /* PostCVCell.swift */,
+				791EC79F2A25FE8D0087E453 /* PostCV.swift */,
 				791EC7982A25FD620087E453 /* PostCVDelegate.swift */,
 			);
 			path = Home;
@@ -124,8 +126,9 @@
 			isa = PBXGroup;
 			children = (
 				791EC7B52A2606D40087E453 /* TagVC.swift */,
-				797A4D2D2A260F2F0078BBFC /* TagCV.swift */,
 				791EC7AB2A26060E0087E453 /* TagCell.swift */,
+				797A4D2D2A260F2F0078BBFC /* TagCV.swift */,
+				79929EB02A2653E700EDAEDD /* TagCVDelegate.swift */,
 			);
 			path = Tag;
 			sourceTree = "<group>";
@@ -282,6 +285,7 @@
 				791EC7992A25FD620087E453 /* PostCVDelegate.swift in Sources */,
 				791EC79C2A25FD9A0087E453 /* CustomButton.swift in Sources */,
 				791EC79E2A25FD9E0087E453 /* CustomLabel.swift in Sources */,
+				79929EB12A2653E700EDAEDD /* TagCVDelegate.swift in Sources */,
 				7978E48A2A1F12530079AA87 /* SignInContorller.swift in Sources */,
 				791EC7A32A2601850087E453 /* PostCreateVC.swift in Sources */,
 				791EC7A52A2601A90087E453 /* FirebaseManager.swift in Sources */,
