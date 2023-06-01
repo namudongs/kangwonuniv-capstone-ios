@@ -49,7 +49,7 @@ class PostCreateVC: UIViewController {
         super.viewDidLoad()
         setUP()
         searchTextField.addTarget(self, action: #selector(searchTags(_:)), for: .editingChanged)
-        addButton.addTarget(self, action: #selector(returnMajor), for: .touchUpInside)
+        addButton.addTarget(self, action: #selector(getMajor), for: .touchUpInside)
     }
     
     func setUP() {
@@ -69,7 +69,7 @@ class PostCreateVC: UIViewController {
     }
     
     // MARK: - Helpers
-    @objc func returnMajor() {
+    @objc func getMajor() {
         major = tagCV.getSelectedTag()
         print(major)
     }
