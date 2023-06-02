@@ -17,9 +17,9 @@ class AuthManager {
         Auth.auth().createUser(withEmail: email, password: pw) {
             (result, error) in
             if error != nil {
-                print("사용자 생성 오류 \(error!)")
+                print("디버그: 사용자 생성 오류 \(error!)")
             } else {
-                print("사용자 생성 성공")
+                print("디버그: 사용자 생성 성공")
                 let user = User(userID: result?.user.uid ?? "",
                                 userName: userName,
                                 userMajor: major,
@@ -27,9 +27,9 @@ class AuthManager {
                 let uid = result?.user.uid ?? ""
                 do {
                     try self.db.collection("users").document(uid).setData(from: user)
-                    print("유저 데이터 저장 성공")
+                    print("디버그: 유저 데이터 저장 성공")
                 } catch {
-                    print("유저 데이터 저장 실패 \(error)")
+                    print("디버그: 유저 데이터 저장 실패 \(error)")
                 }
             }
         }
@@ -37,6 +37,15 @@ class AuthManager {
     
     func signIn(email: String, pw: String) {
         Auth.auth().signIn(withEmail: email, password: pw)
+    }
+    
+    func signOut() {
+        do {
+            try Auth.auth().signOut()
+            print("디버그: 로그아웃 성공")
+        } catch {
+            print("디버그: 로그아웃 실패")
+        }
     }
     
     func getUID() -> String? {

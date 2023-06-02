@@ -12,7 +12,6 @@ struct Post: Codable, Equatable {
     let userName: String
     let userMajor: String
     let userGrade: Int
-    
     let title: String
     let text: String
     let category: String

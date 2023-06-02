@@ -87,6 +87,7 @@ class SignInViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         setUp()
+        AuthManager.shared.signOut()
         searchTextField.addTarget(self, action: #selector(searchTags(_:)), for: .editingChanged)
         signInButton.addTarget(self, action: #selector(handleSignIn), for: .touchUpInside)
         signUpButton.addTarget(self, action: #selector(handleSignUp), for: .touchUpInside)
@@ -144,6 +145,10 @@ class SignInViewController: UIViewController {
             case .success(let user):
                 print("사용자 데이터: \(user)")
                 // 이 데이터를 가지고 다음 뷰로 이동 \(MainTabBar)
+                let PostCreateVC = PostCreateVC()
+                PostCreateVC.user = user
+                PostCreateVC.modalPresentationStyle = .fullScreen
+                self.present(PostCreateVC, animated: true)
             case .failure(let error):
                 print("사용자 데이터를 가져오는 중 오류 발생 \(error)")
             }

@@ -11,6 +11,7 @@ import Then
 
 class PostCreateVC: UIViewController {
     // MARK: - Property
+    var user: User?
     private let tagCV = TagCV()
     private let firebase = FirebaseManager()
     private var heartCount: Int? = 0
@@ -49,7 +50,7 @@ class PostCreateVC: UIViewController {
         super.viewDidLoad()
         setUP()
         searchTextField.addTarget(self, action: #selector(searchTags(_:)), for: .editingChanged)
-        addButton.addTarget(self, action: #selector(getMajor), for: .touchUpInside)
+        addButton.addTarget(self, action: #selector(createPost), for: .touchUpInside)
     }
     
     func setUP() {
@@ -67,11 +68,21 @@ class PostCreateVC: UIViewController {
             make.center.equalToSuperview()
         }
     }
-    
     // MARK: - Helpers
-    @objc func getMajor() {
-        major = tagCV.getSelectedTag()
-        print(major)
+    
+    @objc func createPost() {
+        guard let user = user else { print("유저 정보를 가져올 수 없습니다"); return }
+        guard let title = titleTextField.text, let text = textField.text else { return }
+              
+        FirebaseManager.shared.createPost(userID: user.userID,
+                                          userName: user.userName,
+                                          userMajor: user.userMajor,
+                                          userGrade: user.userGrade,
+                                          title: title,
+                                          text: text,
+                                          category: tagCV.getSelectedTag(),
+                                          like: 0,
+                                          com: 0)
     }
     
     @objc func searchTags(_ textField: UITextField) {
