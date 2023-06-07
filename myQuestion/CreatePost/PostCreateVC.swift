@@ -83,6 +83,8 @@ class PostCreateVC: UIViewController {
                                           category: tagCV.getSelectedTag(),
                                           like: 0,
                                           com: 0)
+        
+        // 포스트 생성 성공 시 뷰컨트롤러 이동
     }
     
     @objc func searchTags(_ textField: UITextField) {
