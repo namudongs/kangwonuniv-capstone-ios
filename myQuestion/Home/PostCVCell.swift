@@ -5,6 +5,10 @@
 //  Created by namdghyun on 2023/05/30.
 //
 
+
+
+// 6/8 (목)
+
 import UIKit
 
 class PostCVCell: UICollectionViewCell {
