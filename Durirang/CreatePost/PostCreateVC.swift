@@ -78,6 +78,7 @@ class PostCreateVC: UIViewController {
                                           userName: user.userName,
                                           userMajor: user.userMajor,
                                           userGrade: user.userGrade,
+//                                          postID:
                                           title: title,
                                           text: text,
                                           category: tagCV.getSelectedTag(),

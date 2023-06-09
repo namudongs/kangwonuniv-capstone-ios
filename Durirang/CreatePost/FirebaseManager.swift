@@ -10,7 +10,10 @@ import Firebase
 
 class FirebaseManager {
     static let shared = FirebaseManager()
+    var post = [Post]()
     let db = Firestore.firestore()
+    
+    var dataUpdated: (() -> Void)?
     // 포스트 생성에 대한 파이어스토어 연동 필요
     
     func createPost(userID: String, userName: String, userMajor: String, userGrade: Int, title: String, text: String, category: String, like: Int, com: Int) {
@@ -26,7 +29,8 @@ class FirebaseManager {
                         com: com )
         
         do {
-            try db.collection("questions").document().setData(from: post)
+            try db.collection("posts").document()
+                .setData(from: post)
             print("디버그: 포스트 생성 성공")
         } catch {
             print("디버그: 포스트 생성 오류 발생")
